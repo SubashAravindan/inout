@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import cv2
+import json
 import base64
 import time
 
@@ -24,18 +25,19 @@ async def producer_handler(websocket, path):
     while True:
         # Capture frame-by-frame
         ret, imgcv = cap.read()
-        # cv2.imshow('image',imgcv)
-        # cur_time = time.time()
-        # result1 = tfnet.return_predict(imgcv)
-        # print("Time elapsed:" , (time.time() - cur_time ))
-        # encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),50]
-        # res, encimg=cv2.imencode('.jpg',imgcv,encode_param)
+        # Pass image to yolo
+        # dataFromImage = hrishi(imgcv)
+
+        # pass image, coordinates to siamese.
+        # get final results.
+
         cv2.imwrite('img_CV2_90.jpg', imgcv, [
                     int(cv2.IMWRITE_JPEG_QUALITY), 50])
         file1 = open('img_CV2_90.jpg', 'rb').read()
         image = base64.b64encode(file1).decode('utf')
         print(image[0:10])
-        await websocket.send(image)
+        final_data = {"image": image, "result": "blah"}
+        await websocket.send(json.dumps(final_data))
         # break
 
 
