@@ -14,7 +14,7 @@ let ctx = canvas.getContext('2d')
 let target_label = "all";
 
 // ctx.fillStyle = 'red'
-ctx.fillRect(0, 0, canvas.width, canvas.height)
+ctx.clearRect(0, 0, canvas.width, canvas.height)
 
 function drawOneBox(prediction) {
     console.log(prediction);
@@ -72,4 +72,9 @@ socket.onmessage = (e) => {
 
 socket.onclose = (e) => {
     console.log('closed')
+}
+
+
+function showObjectDetails(object){
+    window.location.href = "objects.html?objectName="+object;
 }
