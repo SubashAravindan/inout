@@ -34,6 +34,7 @@ function drawOneBox(prediction) {
 }
 
 function DrawBoxes(predictions) {
+    console.log("lol")
     let allLabels = true;
     if (target_label !== "all") {
         allLabels = false;
@@ -48,13 +49,15 @@ function DrawBoxes(predictions) {
     }
 }
 
-function drawImage(blob) {
+function drawImage(blob, predictions) {
     let img = new Image()
     img.onload = function () {
         ctx.drawImage(img, 0, 0)
+        DrawBoxes(predictions)
+
     }
     img.src = blob
-    console.log(img.src);
+    // console.log(img.src);
 }
 
 const socket = new WebSocket(config.serverURL)
@@ -66,8 +69,9 @@ socket.onopen = (e) => {
 }
 
 socket.onmessage = (e) => {
-    // console.log('​socket.onmessage -> e', e)
-    drawImage('data:image/jpeg;base64,' + JSON.parse(e.data).image)
+    let data = JSON.parse(e.data);
+    // console.log('​socket.onmessage -> e', data.image)
+    drawImage(('data:image/jpeg;base64,' + data.image), data.result)
 }
 
 socket.onclose = (e) => {
@@ -75,6 +79,6 @@ socket.onclose = (e) => {
 }
 
 
-function showObjectDetails(object){
-    window.location.href = "objects.html?objectName="+object;
+function showObjectDetails(object) {
+    window.location.href = "objects.html?objectName=" + object;
 }
