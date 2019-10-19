@@ -66,8 +66,8 @@ socket.onopen = (e) => {
 }
 
 socket.onmessage = (e) => {
-    console.log('​socket.onmessage -> e', e)
-    drawImage('data:image/jpeg;base64,' + e.data)
+    // console.log('​socket.onmessage -> e', e)
+    drawImage('data:image/jpeg;base64,' + JSON.parse(e.data).image)
 }
 
 socket.onclose = (e) => {
