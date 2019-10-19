@@ -25,9 +25,11 @@ async def producer_handler(websocket, path):
     while True:
         # Capture frame-by-frame
         ret, imgcv = cap.read()
+
+        # todo:
+
         # Pass image to yolo
         # dataFromImage = hrishi(imgcv)
-
         # pass image, coordinates to siamese.
         # get final results.
 
@@ -35,10 +37,23 @@ async def producer_handler(websocket, path):
                     int(cv2.IMWRITE_JPEG_QUALITY), 50])
         file1 = open('img_CV2_90.jpg', 'rb').read()
         image = base64.b64encode(file1).decode('utf')
-        print(image[0:10])
-        final_data = {"image": image, "result": "blah"}
-        await websocket.send(json.dumps(final_data))
-        # break
+        # print(image)
+
+        # sample predictions to test frontend integration
+        predictions = [
+            {"topleft": {"x": 10, "y": 40}, "bottomright": {
+                "x": 720, "y": 320}, "confidence": 0.83, "label": "car"},
+            {"topleft": {"x": 60, "y": 80}, "bottomright": {
+                "x": 330, "y": 470}, "confidence": 0.83, "label": "car"},
+            {"topleft": {"x": 50, "y": 60}, "bottomright": {
+                "x": 90, "y": 120}, "confidence": 0.83, "label": "car"},
+            {"topleft": {"x": 90, "y": 30}, "bottomright": {
+                "x": 220, "y": 100}, "confidence": 0.83, "label": "car"},
+            {"topleft": {"x": 30, "y": 90}, "bottomright": {
+                "x": 90, "y": 110}, "confidence": 0.83, "label": "car"}
+        ]
+        final_data = json.dumps({"image": image, "result": predictions})
+        await websocket.send(final_data)
 
 
 async def handler(websocket, path):
