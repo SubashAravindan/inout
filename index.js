@@ -17,7 +17,7 @@ let target_label = "all";
 ctx.clearRect(0, 0, canvas.width, canvas.height)
 
 function drawOneBox(prediction) {
-    console.log(prediction);
+    // console.log(prediction);
 
     let x1 = prediction.topleft.x;
     let y1 = prediction.topleft.y;
@@ -25,16 +25,16 @@ function drawOneBox(prediction) {
     let y2 = prediction.bottomright.y;
     ctx.beginPath();
     ctx.strokeStyle = "white";
-    ctx.lineWidth = Number(prediction.confidence * 10);
+    ctx.lineWidth = Number(prediction.confidence / 10);
     ctx.strokeRect(x1, y1, x2 - x1, y2 - y1);
-    console.log(x1, y1, x2 - x1, y2 - y1);
+    // console.log(x1, y1, x2 - x1, y2 - y1);
     ctx.font = "30px Arial";
     ctx.fillStyle = "white";
     ctx.fillText(prediction.label, (x1 + x2) / 2, y1 - 20);
 }
 
 function DrawBoxes(predictions) {
-    console.log("lol")
+    // console.log("lol")
     let allLabels = true;
     if (target_label !== "all") {
         allLabels = false;
@@ -70,7 +70,7 @@ socket.onopen = (e) => {
 
 socket.onmessage = (e) => {
     let data = JSON.parse(e.data);
-    // console.log('​socket.onmessage -> e', data.image)
+    console.log('​socket.onmessage -> e', data)
     drawImage(('data:image/jpeg;base64,' + data.image), data.result)
 }
 

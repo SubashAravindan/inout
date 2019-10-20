@@ -12,13 +12,13 @@ height = 300
 channels = 3
 learningRate = 0.0001
 optimizer = tf.compat.v1.train.AdamOptimizer(learningRate)
-totalEpochs = 500
+totalEpochs = 501
 stepSize = 10
 saveSize = 100
 
 trainingClasses = os.listdir("./Training_Data")
 outputClasses = len(trainingClasses)
-batchSize = outputClasses
+batchSize = 50
 
 # Helper function to resize the images
 def resizeImg(img):
@@ -57,7 +57,7 @@ train = optimizer.minimize(tripletLoss, var_list=[tf.compat.v1.global_variables(
 init = tf.compat.v1.global_variables_initializer()
 sess = tf.compat.v1.Session()
 saver = tf.compat.v1.train.Saver()
-load = False
+load = True
 sess.run(init)
 
 if load:

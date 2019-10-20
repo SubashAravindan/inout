@@ -34,7 +34,6 @@ class Network:
             W = tf.get_variable(name = "W" + str(i), shape = [self.hiddenSize, self.hiddenSize])
             B = tf.get_variable(name = "B" + str(i), shape = [self.hiddenSize])
             out = tf.matmul(out, W) + B
-            out = tf.nn.relu(out)
         
         wOut = tf.get_variable("wOut", shape = [self.hiddenSize, self.outputClasses])
         bOut = tf.get_variable("bOut", shape = [self.outputClasses])
@@ -48,7 +47,7 @@ class Network:
         margin = tf.constant(self.margin, dtype = tf.float32)
         D1 = tf.multiply(eucl, self.Y)
         D2 = tf.multiply(1 - self.Y, tf.pow(tf.math.maximum(0.0, margin - eucd), 2)) 
-        outputLoss = D1 - D2
+        outputLoss = D1 + D2
         outputLoss = tf.reduce_mean(outputLoss)
         return outputLoss
 
